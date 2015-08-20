@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en" ng-App="">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <head>
+  <title>McAulay Library Remix</title>
+
+  </head>
+
+  <style type="text/css">
+
+  body{
+  	font-family: Georgia, serif;
+    margin:0;
+  }
+
+ @media (max-width:600px){
+
+  body{
+    font-size:12px
+  }
+
+  #player{
+    font-size:125%;
+  }
+    
+ }
+
+
+
+  #wrapper{
+  	text-align: center;
+  	margin: 0 auto;
+  	width:80%;
+  	padding-bottom:400px;
+  }
+
+  .term{
+  	display: inline-block;
+  	padding:0.1em;
+  	margin:0 3px;
+  	/*border: 1px solid #aaa;*/
+  	/*background-color: #eee;*/
+  	/*text-transform: uppercase;*/
+  	cursor:pointer;
+  	line-height: 1.0em;
+
+  }
+
+  .term.playing{
+  	background-color: red;
+  	color:white;
+  }
+
+   .term.related{
+  	background-color: #fdd;
+  }
+
+
+  #player{
+  	position:fixed;
+  	bottom:0;
+  	width:100%;
+  	padding:12px 0px;
+  	background:black;
+  	color:white;
+  	text-align:center;
+  }
+
+  #about{
+    padding:0 12px;
+  }
+
+
+
+   #player h3{
+   	margin:12px;
+    font-weight:normal;
+   }
+
+   #player a, #player a:visited{
+    color:white;
+   }
+
+   #aboutbutton{
+    background:white;
+    color:black;
+    display:inline-block;
+    border-radius: 50%;
+    width:1.0em;
+    height:1.0em;
+    padding: 0 0.01em 0.05em 0.05em;
+    font-weight: bold;
+    position:absolute;
+    bottom:10px;
+    right:10px;
+    cursor:pointer;
+   }
+
+
+  </style>
+  
+  	<body ng-controller="mcAulayController" >
+		 <script src="lib/angular.min.js"></script>
+   		 <script type="text/javascript" src="js/controller.js"></script>
+
+   		 <div id="wrapper">
+
+
+   		 	<div ng-repeat="t in terms | orderBy:'term'" 
+   		 		class="term" 
+   		 		ng-class="termClass(t)"
+   		 		ng-style="{'font-size': 1.0+(t.items.length*0.002) + 'em'}"
+   		 		ng-click="clickTerm(t)"
+   		 		title="{{t.items.length}} recordings with '{{t.term}}' in the title">{{t.term}}<span ng-if="$index < terms.length-1">,</span><span ng-if="$index == terms.length-1">.</span></div>
+
+   		 </div>	
+
+   		<div id="player"> 
+        <div id="about" ng-if="about">
+        <h1>Macaulay Remix</h1>
+          <p>This is an experimental interface to the audio collection of the Cornell Lab of Ornithology's <a href="http://macaulaylibrary.org/">Macaulay Library</a> - the world's largest and oldest collection of biodiversity audio and video recordings. This project builds on metadata harvested by <a href="https://github.com/edsu/macaulay-mix">Ed Summers</a>, and takes inspiration from <a a href="https://twitter.com/vruba">Charlie Lloyd's</a> animal name <a href="https://twitter.com/vruba/status/602556960257409024">tweets</a>. This list shows the 500 most frequent title terms, linking to about 115,000 individual records. Click a term to hear one of its tracks.</p>
+          <p>by <a href="http://mtchl.net">Mitchell Whitelaw</a> | <a href="http://twitter.com/mtchl">@mtchl</a></p>
+        </div>  
+        <div ng-if="!about">
+     			<h3>{{track.title}} &bull; {{track.geography}} &bull; <a target="_new" href="http://macaulaylibrary.org/audio/{{track.id}}">Source</a></h3>
+          <div id="aboutbutton" ng-click="showAbout()">i</div>
+     			<audio ng-src="{{track.audioURL}}" autoplay="true" controls></audio>
+      </div>
+
+   		</div>
+
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
