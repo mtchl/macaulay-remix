@@ -27,13 +27,14 @@ function mcAulayController($scope,$http,$sce){
 		var prefix = Math.floor(trackID / 10000);
         var url = "http://animalrecordings.org/Audio/" + prefix + "/" + trackID + ".mp3";
         //console.log("url " + url);
+        $scope.playerurl = $sce.trustAsResourceUrl("http://macaulaylibrary.org/audio/" + trackID + "/autoplay/600");
 
-        $http.get("items/"+prefix+"/"+trackID+".json").success(function(data){
-        	//console.log("getting " + trackID);
-			$scope.track = data;
-			$scope.track.audioURL = $sce.trustAsResourceUrl(url);
-			$scope.track.id = trackID;
-        });
+   //      $http.get("items/"+prefix+"/"+trackID+".json").success(function(data){
+   //      	//console.log("getting " + trackID);
+			// $scope.track = data;
+			// $scope.track.audioURL = $sce.trustAsResourceUrl(url);
+			// $scope.track.id = trackID;
+   //      });
 
         $scope.relatedterms = term.relatedterms;
 
@@ -56,7 +57,11 @@ function mcAulayController($scope,$http,$sce){
 		if ($scope.playing == term.term) return {playing:true};
 		if ($scope.relatedterms.indexOf(term.term) > -1) return {related:true};
 
+	}
 
+	$scope.termFontSize = function(t){
+		var sz = 0.2 + 0.08*Math.sqrt(t.items.length) + 'em';
+		return {'font-size': sz };
 	}
 
 	$scope.showAbout = function(){
